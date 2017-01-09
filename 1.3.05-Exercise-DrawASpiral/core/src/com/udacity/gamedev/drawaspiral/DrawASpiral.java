@@ -8,8 +8,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * TODO: Start here
- *
  * In this exercise we have a project that draws a number of concentric rectangles as specified in
  * the COILS constant. The space between the rectangles is given by xStep and yStep.
  *
@@ -47,19 +45,19 @@ public class DrawASpiral extends ApplicationAdapter {
         int xStep = screenWidth / 2 / COILS;
         int yStep = screenHeight / 2 / COILS;
 
-        for (int i = 0; i < COILS; i++) {
+        for (int i = 1; i < COILS; i++) {
 
             int xOffset = xStep * i;
             int yOffset = yStep * i;
 
-            // TODO: Make this coil reach back to the outer coil
-            Vector2 point1 = new Vector2(xOffset, yOffset);
+            // Make this coil reach back to the outer coil
+            Vector2 point1 = new Vector2(xOffset - xStep, yOffset);
             Vector2 point2 = new Vector2(screenWidth - xOffset, yOffset);
             Vector2 point3 = new Vector2(screenWidth - xOffset, screenHeight - yOffset);
             Vector2 point4 = new Vector2(xOffset, screenHeight - yOffset);
 
-            // TODO: Make this coil stop before connecting back to itself
-            Vector2 point5 = new Vector2(xOffset, yOffset);
+            // Make this coil stop before connecting back to itself
+            Vector2 point5 = new Vector2(xOffset, yOffset + yStep);
 
             shapeRenderer.line(point1, point2);
             shapeRenderer.line(point2, point3);
