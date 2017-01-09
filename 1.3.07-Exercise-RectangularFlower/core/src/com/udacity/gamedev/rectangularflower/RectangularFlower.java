@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 /**
- * TODO: Start Here
+ * Start Here
  *
  * In this exercise, we're going to draw a flower using only rectangles! We've already started off
  * with a green rectline for the stem. First you'll draw a couple leaves using rotated rectangles.
@@ -39,14 +39,19 @@ public class RectangularFlower extends ApplicationAdapter {
         shapeRenderer.setColor(Color.GREEN);
         shapeRenderer.rectLine(100, 0, 100, 300, 20);
 
-        // TODO: Draw two leaves on the stem
+        // Draw two leaves on the stem
+        shapeRenderer.rect(100, 200, 0, 0, 50, 50, 1, 1, 135);
+        shapeRenderer.rect(100, 175, 0, 0, 50, 50, 1, 1, 315);
 
-        // TODO: Set the active color to yellow
+        // Set the active color to yellow
+        shapeRenderer.setColor(Color.YELLOW);
 
         // TODO: Use a loop to draw 20 of these petals in a circle
-
-        float petalAngle = 45.0f;
-        shapeRenderer.rect(100, 300, 0, 0, 40, 40, 1, 1, petalAngle);
+        float numPetal = 20.0f;
+        float petalAngleDelta = 360/numPetal;
+        for (int i=0; i < (numPetal/4); i++) {
+            shapeRenderer.rect(60, 260, 40, 40, 80, 80, 1, 1, petalAngleDelta * i);
+        }
 
         shapeRenderer.end();
     }
