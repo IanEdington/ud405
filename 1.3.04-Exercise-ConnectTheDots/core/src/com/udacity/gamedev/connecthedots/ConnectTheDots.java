@@ -51,16 +51,13 @@ public class ConnectTheDots extends ApplicationAdapter {
 
         float[] floatDots = new float[dots.size * 2 + 2];
 
-        java.util.Iterator<Vector2> dotsIter = dots.iterator();
         int i = 0;
-        while (dotsIter.hasNext()) {
-            Vector2 dot = dotsIter.next();
-            floatDots[i] = dot.x;
-            floatDots[i+1] = dot.y;
-            i+=2;
+        for (Vector2 dot: dots) {
+            floatDots[i++] = dot.x;
+            floatDots[i++] = dot.y;
         }
-        floatDots[i] = floatDots[0];
-        floatDots[i+1] = floatDots[1];
+        floatDots[i++] = floatDots[0];
+        floatDots[i++] = floatDots[1];
         return floatDots;
     }
 
