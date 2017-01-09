@@ -12,12 +12,8 @@ import com.badlogic.gdx.utils.Array;
 
 
 /**
- * TODO: Start here
- *
  * In this exercise we're going to connect the dots, but instead of drawing by hand, we're going to
  * use ShapeRenderer and polyline.
- *
- * TODO: Run what we've got so far
  *
  * As you can see, we've got some dots to work with, but no lines yet. Let's fix that!
  */
@@ -43,7 +39,7 @@ public class ConnectTheDots extends ApplicationAdapter {
     }
 
     /**
-     * TODO: Complete this function to translate Array<Vector2> to float[]
+     * Complete this function to translate Array<Vector2> to float[]
      *
      * The first problem is that the dot positions we have to work with are in an array of vectors,
      * and polyLine wants a flat array of floats. We've set up the array of floats for you, now all
@@ -53,8 +49,18 @@ public class ConnectTheDots extends ApplicationAdapter {
      */
     private float[] vector2ArrayToFloatArray(Array<Vector2> dots) {
 
-        float[] floatDots = new float[dots.size * 2];
+        float[] floatDots = new float[dots.size * 2 + 2];
 
+        java.util.Iterator<Vector2> dotsIter = dots.iterator();
+        int i = 0;
+        while (dotsIter.hasNext()) {
+            Vector2 dot = dotsIter.next();
+            floatDots[i] = dot.x;
+            floatDots[i+1] = dot.y;
+            i+=2;
+        }
+        floatDots[i] = floatDots[0];
+        floatDots[i+1] = floatDots[1];
         return floatDots;
     }
 
@@ -80,11 +86,14 @@ public class ConnectTheDots extends ApplicationAdapter {
         }
         spriteBatch.end();
 
-        // TODO: Start a batch with Shapetype.Line
+        // Start a batch with Shapetype.Line
+        shapeRenderer.begin(ShapeType.Line);
 
-        // TODO: Draw a polyline using the dot positions as a float array
+        // Draw a polyline using the dot positions as a float array
+        shapeRenderer.polyline(floatDots);
 
-        // TODO: End the batch
+        // End the batch
+        shapeRenderer.end();
 
 
     }
