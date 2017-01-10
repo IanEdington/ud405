@@ -17,7 +17,7 @@ public class DrawTheCantorGasket extends ApplicationAdapter {
 
     ShapeRenderer shapeRenderer;
     // Set a constant for how many recursions to draw. 5 is a good place to start
-    int numRecursion = 5;
+    private final static int NUMRECURSION = 5;
 
     @Override
     public void create () {
@@ -42,7 +42,7 @@ public class DrawTheCantorGasket extends ApplicationAdapter {
 
         // Set the working color to black, and call punchCantorGasket with the bounds
         shapeRenderer.setColor(Color.BLACK);
-        punchCantorGasket(bounds.x, bounds.y, bounds.width, numRecursion);
+        punchCantorGasket(bounds.x, bounds.y, bounds.width, NUMRECURSION);
 
         // End the batch
         shapeRenderer.end();
@@ -64,14 +64,13 @@ public class DrawTheCantorGasket extends ApplicationAdapter {
         shapeRenderer.rect(x + inner, y + inner, inner, inner);
 
         // Call punchCantorGasket on all 8 other squares
-        punchCantorGasket(x, y, inner, recursions - 1);
-        punchCantorGasket(x + inner, y, inner, recursions - 1);
-        punchCantorGasket(x + 2*inner, y, inner, recursions - 1);
-        punchCantorGasket(x + 2*inner, y + inner, inner, recursions - 1);
-        punchCantorGasket(x + 2*inner, y + 2*inner, inner, recursions - 1);
-        punchCantorGasket(x + inner, y + 2*inner, inner, recursions - 1);
-        punchCantorGasket(x, y + 2*inner, inner, recursions - 1);
-        punchCantorGasket(x, y + inner, inner, recursions - 1);
+        // A more compat implementation from solution
+        recursions--;
+
+        for (int i = 0; i < 9; i++) {
+            if (4 == i) continue;
+            punchCantorGasket(x + (i%3)*inner, y + ((i/3)%3)*inner, inner, recursions);
+        }
     }
 
     private Rectangle findLargestSquare(){
