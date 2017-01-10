@@ -3,6 +3,7 @@ package com.udacity.gamedev.orthographiccamera;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.MathUtils;
@@ -10,8 +11,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 
 /**
- * TODO: Start here
- *
  * In this exercise, you'll create an OrthographicCamera, and use it to zoom in on a moving circle
  */
 public class OrthographicCameraExercise extends ApplicationAdapter {
@@ -26,7 +25,8 @@ public class OrthographicCameraExercise extends ApplicationAdapter {
     ShapeRenderer renderer;
     long timeCreated;
 
-    //TODO: Declare an OrthographicCamera
+    //Declare an OrthographicCamera
+    OrthographicCamera camera;
 
 
     @Override
@@ -34,10 +34,12 @@ public class OrthographicCameraExercise extends ApplicationAdapter {
         renderer = new ShapeRenderer();
         timeCreated = TimeUtils.millis();
 
-        // TODO: Initialize the camera
+        // Initialize the camera
+        camera = new OrthographicCamera();
 
 
-        // TODO: Set the camera's position to the center of the circle's movement (X_CENTER, Y_CENTER)
+        // Set the camera's position to the center of the circle's movement (X_CENTER, Y_CENTER)
+        camera.translate(X_CENTER, Y_CENTER);
 
     }
 
@@ -49,13 +51,17 @@ public class OrthographicCameraExercise extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
 
-        // TODO: Calculate the aspect ratio (width / height)
+        // Calculate the aspect ratio (width / height)
+        float aspectRatio = width / (float)height;
 
 
-        // TODO: Set the camera's viewport height taking into account the ball's movement and radius
+        // Set the camera's viewport height taking into account the ball's movement and radius
+        float travelWidth = 2 * (X_AMPLITUDE + BALL_RADIUS);
+        float travelHeight = 2 * (Y_AMPLITUDE + BALL_RADIUS);
+        camera.viewportHeight = Float.max(travelHeight, travelWidth / aspectRatio);
 
-
-        // TODO: Set the camera's viewport width to maintain the aspect ratio
+        // Set the camera's viewport width to maintain the aspect ratio
+        camera.viewportWidth = camera.viewportHeight * aspectRatio;
 
     }
 
@@ -64,10 +70,12 @@ public class OrthographicCameraExercise extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // TODO: Call update() on the camera
+        // Call update() on the camera
+        camera.update();
 
 
-        // TODO: Set the SceneRenderer's projection matrix equal to the camera's combined matrix
+        // Set the SceneRenderer's projection matrix equal to the camera's combined matrix
+        renderer.setProjectionMatrix(camera.combined);
 
 
         renderer.begin(ShapeType.Filled);
