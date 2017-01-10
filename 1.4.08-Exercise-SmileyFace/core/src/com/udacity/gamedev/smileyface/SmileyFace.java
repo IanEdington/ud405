@@ -2,12 +2,12 @@ package com.udacity.gamedev.smileyface;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 /**
- * TODO: Start here
- *
  * The goal of this exercise is just to draw a similey face. Feel free to get as artistic as you
  * want, but we've provided a bunch of constants you may find useful.
  *
@@ -34,14 +34,18 @@ public class SmileyFace extends ApplicationAdapter {
     static final int EYE_SEGMENTS = 20;
     static final int MOUTH_SEGMENTS = 20;
 
-    // TODO: Declare a ShapeRenderer and an ExtendViewport
+    // Declare a ShapeRenderer and an ExtendViewport
+    ShapeRenderer renderer;
+    ExtendViewport viewport;
 
 
 
     @Override
     public void create() {
 
-        // TODO: Initialize the ShapeRenderer and ExtendViewport
+        // Initialize the ShapeRenderer and ExtendViewport
+        renderer = new ShapeRenderer();
+        viewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT);
 
 
     }
@@ -49,17 +53,20 @@ public class SmileyFace extends ApplicationAdapter {
     @Override
     public void dispose() {
 
-        // TODO: Dispose of the ShapeRenderer
+        // Dispose of the ShapeRenderer
+        renderer.dispose();
 
     }
 
     @Override
     public void resize(int width, int height) {
 
-        // TODO: Update the viewport
+        // Update the viewport
+        viewport.update(width, height);
 
 
-        // TODO: Move the viewport's camera to the center of the face
+        // Move the viewport's camera to the center of the face
+        viewport.getCamera().position.set(FACE_CENTER_X, FACE_CENTER_Y, 0);
 
     }
 
@@ -72,37 +79,50 @@ public class SmileyFace extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // TODO: Apply the viewport
+        // Apply the viewport
+        viewport.apply();
 
 
-        // TODO: Set the ShapeRender's projection matrix
+        // Set the ShapeRender's projection matrix
+        renderer.setProjectionMatrix(viewport.getCamera().combined);
 
 
-        // TODO: Start a Filled batch
+        // Start a Filled batch
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
 
 
-        // TODO: Call drawSmileyFace()
+        // Call drawSmileyFace()
+        drawSmileyFace(renderer);
 
 
-        // TODO: End the batch
+        // End the batch
+        renderer.end();
 
     }
 
     private void drawSmileyFace(ShapeRenderer renderer) {
 
-        // TODO: Set the color to yellow, and draw the face
+        // Set the color to yellow, and draw the face
+        renderer.setColor(Color.YELLOW);
+        renderer.circle(FACE_CENTER_X, FACE_CENTER_Y, FACE_RADIUS, FACE_SEGMENTS);
 
 
 
-        // TODO: Set the color to black and draw the eyes
+        // Set the color to black and draw the eyes
+        renderer.setColor(Color.BLACK);
+        renderer.circle(FACE_CENTER_X-EYE_OFFSET, FACE_CENTER_Y+EYE_OFFSET, EYE_RADIUS, EYE_SEGMENTS);
+        renderer.circle(FACE_CENTER_X+EYE_OFFSET, FACE_CENTER_Y+EYE_OFFSET, EYE_RADIUS, EYE_SEGMENTS);
 
 
 
 
-        // TODO: Draw a black arc for the mouth (Hint: MOUTH_OUTER_RADIUS)
+        // Draw a black arc for the mouth (Hint: MOUTH_OUTER_RADIUS)
+        renderer.arc(FACE_CENTER_X, FACE_CENTER_Y, MOUTH_OUTER_RADIUS, MOUTH_START_ANGLE, MOUTH_DEGREES, MOUTH_SEGMENTS);
 
 
-        // TODO: Draw a yellow arc to make the mouth actually look like a mouth (Hint: MOUTH_INNER_RADIUS)
+        // Draw a yellow arc to make the mouth actually look like a mouth (Hint: MOUTH_INNER_RADIUS)
+        renderer.setColor(Color.YELLOW);
+        renderer.arc(FACE_CENTER_X, FACE_CENTER_Y, MOUTH_INNER_RADIUS, MOUTH_START_ANGLE, MOUTH_DEGREES, MOUTH_SEGMENTS);
 
 
     }
