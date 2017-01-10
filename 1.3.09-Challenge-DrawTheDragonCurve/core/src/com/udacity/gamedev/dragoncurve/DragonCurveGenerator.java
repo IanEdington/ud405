@@ -30,13 +30,27 @@ public class DragonCurveGenerator {
         turns.add(Direction.LEFT);
 
         for (int i = 0; i < recursions; i++){
-            // TODO: Create a reversed copy of turns
+            // Create a reversed copy of turns
+            LinkedList<Direction> newTurns = new LinkedList<Direction>(turns);
 
 
-            // TODO: Add a left turn to turns
+            // Add a left turn to turns
+            turns.add(Direction.LEFT);
 
 
-            // TODO: Add reflected version of reversed to turns
+            // Add reflected version of reversed to turns
+            java.util.Iterator<Direction> reverseNewTurns = newTurns.descendingIterator();
+            while (reverseNewTurns.hasNext()) {
+                Direction turn = reverseNewTurns.next();
+                switch (turn){
+                    case LEFT:
+                        turns.add(Direction.RIGHT);
+                        break;
+                    case RIGHT:
+                        turns.add(Direction.LEFT);
+                        break;
+                }
+            }
 
         }
         return turns;
@@ -55,7 +69,13 @@ public class DragonCurveGenerator {
         curve[i++] = head.x;
         curve[i++] = head.y;
 
-        //TODO: Convert the list of turns into the actual path
+        //Convert the list of turns into the actual path
+        for (Direction turn: turns) {
+            head.add(heading);
+            curve[i++] = head.x;
+            curve[i++] = head.y;
+            heading = Direction.turn(heading, turn);
+        }
 
 
         return curve;
