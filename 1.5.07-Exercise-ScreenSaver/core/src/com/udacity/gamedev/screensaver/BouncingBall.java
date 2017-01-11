@@ -22,7 +22,7 @@ import java.util.Random;
 public class BouncingBall {
 
     private static final Color COLOR = Color.RED;
-    private static final float RADIUS_FACTOR = 1.0f / 20;
+    private static final float RADIUS_FACTOR = 1.0f / 60;
     private static final float KICK_VELOCITY = 500.0f;
 
     float radius;
@@ -34,9 +34,14 @@ public class BouncingBall {
     }
 
     public void init(Viewport viewport) {
-        position = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
-        velocity = new Vector2();
+        // give a new ball a random position
+        Random random = new Random();
         radius = RADIUS_FACTOR * Math.min(viewport.getWorldWidth(), viewport.getWorldHeight());
+        float posX = random.nextFloat() * (viewport.getWorldWidth() - 2 * radius) + radius;
+        float posY = random.nextFloat() * (viewport.getWorldHeight() - 2 * radius) + radius;
+        position = new Vector2(posX, posY);
+
+        velocity = new Vector2();
         randomKick();
     }
 
@@ -49,7 +54,9 @@ public class BouncingBall {
 
     public void update(float delta, Viewport viewport) {
 
-        // TODO: Update the ball's position using its velocity
+        // Update the ball's position using its velocity
+        position.x += delta * velocity.x;
+        position.y += delta * velocity.y;
 
 
         collideWithWalls(radius, viewport.getWorldWidth(), viewport.getWorldHeight());
@@ -65,10 +72,17 @@ public class BouncingBall {
             velocity.x = -velocity.x;
         }
 
-        // TODO: Make the ball bounce off the bottom of the screen
+        // Make the ball bounce off the bottom of the screen
+        if (position.y - radius < 0) {
+            position.y = radius;
+            velocity.y = -velocity.y;
+        }
 
-
-        // TODO: Make the ball bounce off the top of the screen
+        // Make the ball bounce off the top of the screen
+        if (position.y + radius > viewportHeight) {
+            position.y = viewportHeight - radius;
+            velocity.y = -velocity.y;
+        }
 
     }
 

@@ -13,9 +13,9 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 public class BallScreen extends ScreenAdapter implements InputProcessor {
 
     public static final float WORLD_SIZE = 480.0f;
-    // TODO: When a single ball is working try a bunch of balls.
-    // TODO: See how many balls you can add before your computer starts slowing down.
-    private static final int BALL_COUNT = 0;
+    // When a single ball is working try a bunch of balls.
+    // See how many balls you can add before your computer starts slowing down.
+    private static final int BALL_COUNT = 1111;
     ShapeRenderer renderer;
     ExtendViewport viewport;
     BouncingBall ball;
