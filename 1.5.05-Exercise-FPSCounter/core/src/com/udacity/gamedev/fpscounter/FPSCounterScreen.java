@@ -1,65 +1,89 @@
 package com.udacity.gamedev.fpscounter;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class FPSCounterScreen extends ScreenAdapter{
 
-    // TODO: Declare a SpriteBatch, a BitmapFont, and a ScreenViewport
+    // Declare a SpriteBatch, a BitmapFont, and a ScreenViewport
+    SpriteBatch sprite;
+    BitmapFont font;
+    ScreenViewport viewport;
 
 
     @Override
     public void show() {
 
-        // TODO: Initialize the SpriteBatch
+        // Initialize the SpriteBatch
+        sprite = new SpriteBatch();
 
 
-        // TODO: Initialize the BitmapFont
+        // Initialize the BitmapFont
+        font = new BitmapFont();
 
 
 
 
-        // TODO: Initialize the ScreenViewport
+        // Initialize the ScreenViewport
+        viewport = new ScreenViewport();
 
     }
 
     @Override
     public void resize(int width, int height) {
-        // TODO: Update the viewport. Be sure to center the camera
+        // Update the viewport. Be sure to center the camera
+        viewport.update(width, height, true);
 
     }
 
     @Override
     public void dispose() {
-        // TODO: Dispose of the SpriteBatch and the BitmapFont
+        // Dispose of the SpriteBatch and the BitmapFont
+        sprite.dispose();
+        font.dispose();
 
 
     }
 
     @Override
     public void render(float delta) {
-        // TODO: Apply the viewport
+        // Apply the viewport
+        viewport.apply();
 
 
-        // TODO: Set the clear color
+        // Set the clear color
+        Gdx.gl.glClearColor(0, 0, 0, 1);
 
 
-        // TODO: Clear the color buffer
+        // Clear the color buffer
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
-        // TODO: Set the SpriteBatch's projection matrix
+        // Set the SpriteBatch's projection matrix
+        sprite.setProjectionMatrix(viewport.getCamera().combined);
 
 
-        // TODO: Begin a new batch
+        // Begin a new batch
+        sprite.begin();
+        sprite.setColor(Color.YELLOW);
 
 
-        // TODO: Use delta to figure out the number of frames per second
+        // Use delta to figure out the number of frames per second
+        Float fps = 1 / delta;
 
 
-        // TODO: Use the BitmapFont to draw the FPS
+        // Use the BitmapFont to draw the FPS
+        font.draw(sprite, fps.toString(), viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
 
 
-        // TODO: End the batch
+        // End the batch
+        sprite.end();
 
     }
 }
