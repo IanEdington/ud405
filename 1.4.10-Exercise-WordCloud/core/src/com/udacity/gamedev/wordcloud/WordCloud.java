@@ -12,8 +12,6 @@ import com.badlogic.gdx.utils.Array;
 
 
 /**
- * TODO: Start here
- *
  * In this exercise, we'll create a word cloud. We've created all the infrastructure like the
  * SpriteBatch and BitmapFont. Now all you need to do is actually draw the random collection of
  * words we've generated.
@@ -69,15 +67,21 @@ public class WordCloud extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
 
+        float width = Gdx.graphics.getWidth();
+        float height = Gdx.graphics.getHeight();
+
         for (Word word : words) {
 
-            // TODO: Set the font's scale using font.getData().setScale()
+            // Set the font's scale using font.getData().setScale()
+            font.getData().setScale(word.scale);
 
 
-            // TODO: Set the font's tint using font.setColor()
+            // Set the font's tint using font.setColor()
+            font.setColor(word.color);
 
 
-            // TODO: Actually draw the word using font.draw()
+            // Actually draw the word using font.draw()
+            font.draw(batch, word.letters, word.x * width, word.y * height);
 
         }
         batch.end();
