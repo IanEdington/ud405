@@ -15,7 +15,7 @@ import java.util.Random;
 public class BouncingBall {
 
     private static final Color COLOR = Color.RED;
-    private static final float DRAG = 1.0f;
+    private static final float DRAG = 0.1f;
 
     private static final float BASE_RADIUS = 20.0f;
     private static final float RADIUS_GROWTH_RATE = 1.5f;
@@ -38,17 +38,9 @@ public class BouncingBall {
 
     public void init(Viewport viewport) {
         position = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
-        velocity = new Vector2();
+        velocity = new Vector2(0, 0);
         radiusMultiplier = 1;
         radius = BASE_RADIUS * radiusMultiplier;
-        radiusMultiplier = 1;
-    }
-
-    private void randomKick() {
-        Random random = new Random();
-        float angle = MathUtils.PI2 * random.nextFloat();
-        velocity.x = KICK_VELOCITY * MathUtils.cos(angle);
-        velocity.y = KICK_VELOCITY * MathUtils.sin(angle);
     }
 
     public void update(float delta, Viewport viewport) {
@@ -64,23 +56,36 @@ public class BouncingBall {
 
         radius = radiusMultiplier * BASE_RADIUS;
 
-        // TODO: Subtract delta * ACCELERATION from velocity.x if the left arrow key is pressed (Hint: Keys.LEFT)
+        // Subtract delta * ACCELERATION from velocity.x if the left arrow key is pressed (Hint: Keys.LEFT)
+        if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+            velocity.x -= delta * ACCELERATION;
+        }
 
 
-        // TODO: Handle Keys.RIGHT
+        // Handle Keys.RIGHT
+        if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+            velocity.x += delta * ACCELERATION;
+        }
 
 
-        // TODO: Handle Keys.UP
+        // Handle Keys.UP
+        if (Gdx.input.isKeyPressed(Keys.UP)) {
+            velocity.y += delta * ACCELERATION;
+        }
 
 
-        // TODO: Handle Keys.DOWN
+        // Handle Keys.DOWN
+        if (Gdx.input.isKeyPressed(Keys.DOWN)) {
+            velocity.y -= delta * ACCELERATION;
+        }
 
 
-        // TODO: Use velocity.clamp() to limit the total speed to MAX_SPEED
+        // Use velocity.clamp() to limit the total speed to MAX_SPEED
+        velocity.clamp(0, MAX_SPEED);
 
 
-        velocity.x -= delta * DRAG * velocity.x;
-        velocity.y -= delta * DRAG * velocity.y;
+        velocity.x *= (1 - delta * DRAG);
+        velocity.y *= (1 - delta * DRAG);
 
         position.x += delta * velocity.x;
         position.y += delta * velocity.y;
