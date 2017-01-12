@@ -30,9 +30,11 @@ public class BouncingBall extends InputAdapter {
     Vector2 flickStart;
     boolean flicking = false;
 
-    // TODO: Declare a Vector2 to hold the ball's target position
+    // Declare a Vector2 to hold the ball's target position
+    Vector2 target;
 
-    // TODO: Declare a boolean to hold whether the ball is following something (and set it to false)
+    // Declare a boolean to hold whether the ball is following something (and set it to false)
+    boolean isFollowing = false;
 
 
     float baseRadius;
@@ -76,8 +78,12 @@ public class BouncingBall extends InputAdapter {
             radiusMultiplier = Math.max(radiusMultiplier, MIN_RADIUS_MULTIPLIER);
         }
 
-        // TODO: If we're following something, calculate the difference vector between the targetPosition and the ball's position
-        // TODO: Set the velocity to that vector times the FOLLOW_MULTIPLIER
+        // If we're following something, calculate the difference vector between the targetPosition and the ball's position
+        // Set the velocity to that vector times the FOLLOW_MULTIPLIER
+        if (isFollowing) {
+            Vector2 dragDirection = new Vector2 (target.x - position.x, target.y - position.y);
+            velocity = dragDirection.scl(FOLLOW_MULTIPLIER);
+        }
 
 
 
@@ -163,9 +169,11 @@ public class BouncingBall extends InputAdapter {
             flicking = true;
             flickStart = worldClick;
         } else {
-            // TODO: Set the target position
+            // Set the target position
+            target = new Vector2(worldClick);
 
-            // TODO: Set the following flag
+            // Set the following flag
+            isFollowing = true;
 
         }
 
@@ -175,7 +183,10 @@ public class BouncingBall extends InputAdapter {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        // TODO: If we're following, then update the target position (remember to unproject the touch location)
+        // If we're following, then update the target position (remember to unproject the touch location)
+        if (isFollowing) {
+            target = new Vector2(viewport.unproject(new Vector2(screenX, screenY)));
+        }
 
 
 
@@ -193,7 +204,8 @@ public class BouncingBall extends InputAdapter {
             Gdx.app.log("Ball", "End flick");
         }
 
-        // TODO: Reset the following flag
+        // Reset the following flag
+        if (isFollowing) isFollowing = false;
 
 
         return true;
