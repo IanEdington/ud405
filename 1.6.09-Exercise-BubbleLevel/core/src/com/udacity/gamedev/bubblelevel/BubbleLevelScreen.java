@@ -22,9 +22,9 @@ public class BubbleLevelScreen extends ScreenAdapter {
     private static final Color AXIS_COLOR = Color.RED;
     private static final float AXIS_WIDTH = 1.0f;
 
-    private static final float BUBBLE_RADIUS = WORLD_SIZE/60;
-    private static final float GRAVITY_RADIUS = WORLD_SIZE/3;
-    private static final float BUBBLE_DIVIT_RADIUS = WORLD_SIZE/55;
+    private static final float BUBBLE_RADIUS = WORLD_SIZE / 60;
+    private static final float GRAVITY_RADIUS = WORLD_SIZE / 3;
+    private static final float BUBBLE_DIVIT_RADIUS = WORLD_SIZE / 55;
     private static final int SEGMENTS = 30;
 
     ShapeRenderer renderer;
@@ -100,7 +100,7 @@ public class BubbleLevelScreen extends ScreenAdapter {
         renderer.setColor(Color.RED);
 
         // Draw a circle to indicate 9.8m/s^2
-        renderer.circle(WORLD_SIZE / 2, WORLD_SIZE / 2, GRAVITY_RADIUS, SEGMENTS * 5);
+        renderer.circle(WORLD_SIZE / 2, WORLD_SIZE / 2, GRAVITY_RADIUS + BUBBLE_RADIUS, SEGMENTS * 5);
 
 
         renderer.setColor(Color.GREEN);
