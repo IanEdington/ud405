@@ -22,6 +22,11 @@ public class BubbleLevelScreen extends ScreenAdapter {
     private static final Color AXIS_COLOR = Color.RED;
     private static final float AXIS_WIDTH = 1.0f;
 
+    private static final float BUBBLE_RADIUS = WORLD_SIZE/60;
+    private static final float GRAVITY_RADIUS = WORLD_SIZE/3;
+    private static final float BUBBLE_DIVIT_RADIUS = WORLD_SIZE/55;
+    private static final int SEGMENTS = 30;
+
     ShapeRenderer renderer;
     FitViewport axisViewport;
 
@@ -66,10 +71,10 @@ public class BubbleLevelScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // TODO: Get accelerometer readings
-        float xAxis = 0;
-        float yAxis = 0;
-        float zAxis = 0;
+        // Get accelerometer readings
+        float xAxis = Gdx.input.getAccelerometerX();
+        float yAxis = Gdx.input.getAccelerometerY();
+        float zAxis = Gdx.input.getAccelerometerZ();
 
         float totalAcceleration = (float) Math.sqrt(xAxis * xAxis + yAxis * yAxis + zAxis * zAxis);
 
@@ -94,17 +99,24 @@ public class BubbleLevelScreen extends ScreenAdapter {
 
         renderer.setColor(Color.RED);
 
-        // TODO: Draw a circle to indicate 9.8m/s^2
+        // Draw a circle to indicate 9.8m/s^2
+        renderer.circle(WORLD_SIZE / 2, WORLD_SIZE / 2, GRAVITY_RADIUS, SEGMENTS * 5);
 
 
         renderer.setColor(Color.GREEN);
 
-        // TODO: Draw a circle to hold the bubble when the phone is flat
+        // Draw a circle to hold the bubble when the phone is flat
+        renderer.circle(WORLD_SIZE / 2, WORLD_SIZE / 2, BUBBLE_DIVIT_RADIUS, SEGMENTS);
 
 
         renderer.set(ShapeType.Filled);
 
-        // TODO: Draw the bubble
+        // Draw the bubble
+        renderer.circle(
+                -yAxis * GRAVITY_RADIUS / totalAcceleration + WORLD_SIZE / 2,
+                xAxis * GRAVITY_RADIUS / totalAcceleration + WORLD_SIZE / 2,
+                BUBBLE_RADIUS,
+                SEGMENTS);
 
 
         renderer.end();
