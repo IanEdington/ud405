@@ -97,19 +97,27 @@ public class BouncingBall extends InputAdapter {
         // Accelerometer Movement
 
 
-        // TODO: Get the accelerometer reading for the x axis (remember that the reading will be relative to the portrait device orientation)
+        // Get the accelerometer reading for the x axis (remember that the reading will be relative to the portrait device orientation)
+        float xAxis = Gdx.input.getAccelerometerX();
 
 
-        // TODO: Get the accelerometer reading for the y axis
+        // Get the accelerometer reading for the y axis
+        float yAxis = Gdx.input.getAccelerometerY();
+        float zAxis = Gdx.input.getAccelerometerZ();
 
 
-        // TODO: Use ACCELERATION, ACCELEROMETER_SENSITIVITY, and ACCELERATION_OF_GRAVITY to determine the acceleration to apply to the ball
+        // Use ACCELERATION, ACCELEROMETER_SENSITIVITY, and ACCELERATION_OF_GRAVITY to determine the acceleration to apply to the ball
         // Note we want to negate the value, since we want to fall away from the direction of the accelerometer readings
+        Vector2 gravAcc = new Vector2(
+                yAxis * ACCELEROMETER_SENSITIVITY * ACCELERATION_OF_GRAVITY,
+                -xAxis * ACCELEROMETER_SENSITIVITY * ACCELERATION_OF_GRAVITY);
 
 
 
 
-        // TODO: Apply that acceleration to the ball
+        // Apply that acceleration to the ball
+        velocity.x += gravAcc.x;
+        velocity.y += gravAcc.y;
 
 
 
