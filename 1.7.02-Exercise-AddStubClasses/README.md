@@ -5,7 +5,7 @@ We just used the LibGDX project setup utility to create a fresh project. Now let
 We need the following classes:
 
 * IciclesGame: Subclass of Game
-* IciclesScreen: Implements Screen
+*[x] IciclesScreen: Implements Screen
 * DifficultyScreen: Implements Screen
 * Player, Icicles, Icicle, and Constants: just plain old Java classes
 
